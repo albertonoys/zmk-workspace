@@ -9,3 +9,4 @@ zmk
 draw/base.svg
 draw/base.yaml
 config/splitkb_aurora_sweep.full
+config/splitkb_aurora_sweep.old
