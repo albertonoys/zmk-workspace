@@ -7,13 +7,15 @@
 #include "zmk-helpers/key-labels/34.h"
 
 #define BASE 0
-#define SYM 1
-#define NAV 2
-#define SYS 3
+#define MACOS 1
+#define SYM 2
+#define NAV 3
+#define SYS 4
 
 // #define _BT_SEL_KEYS_ &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bt BT_SEL 5
 #define XXX &none
 #define ___ &trans
+
 
 /* Global settings */
 #define QUICK_TAP_MS 175
@@ -128,6 +130,15 @@ ZMK_MOD_MORPH(bs_del,
             >;
         };
 
+        macos_layer {
+            bindings = <
+    &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans
+    &trans        &trans        &hml LCTRL S  &hml LGUI T   &trans          &trans        &hmr LGUI N   &hmr LCTRL E  &trans        &trans
+    &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans
+                                              &trans        &trans          &trans        &trans
+            >;
+        };
+
         sym_layer {
             bindings = <
     &kp EXCL      &kp AT_SIGN   &kp LEFT_BRACE &kp RIGHT_BRACE &kp PIPE     &kp PLUS      &kp N7        &kp N8        &kp N9        &kp ASTERISK
@@ -148,7 +159,7 @@ ZMK_MOD_MORPH(bs_del,
 
         sys_layer {
             bindings = <
-    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_EFR &kp CAPSLOCK  &none
+    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_EFR &kp CAPSLOCK  &tog MACOS
     &none         &none         &none         &none         &none           &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI &none
     &bt BT_CLR    &bt BT_PRV    &bt BT_NXT    &none         &bt BT_CLR_ALL  &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &none
                                               &none         &none           &none           &none
@@ -157,54 +168,6 @@ ZMK_MOD_MORPH(bs_del,
     };
 };
 
-// ZMK_LAYER(base,
-// //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-//     &kp Q         &kp W         &kp F         &kp P         &kp B           &kp J         &kp L         &kp U         &kp Y         &kp SQT
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//     &hml LSHFT A  &hml LALT R   &hml LGUI S   &hml LCTRL T  &kp G           &kp M         &hmr LCTRL N  &hmr LGUI  E  &hmr LALT I   &hmr RSHFT O
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//     &kp Z         &kp X         &kp C         &kp D         &kp V           &kp K         &kp H         &comma_morph  &dot_morph    &qexcl
-// //╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
-//                                               &lt NAV TAB   &bs_del         &lt_spc NAV 0 &lt SYM RET
-// //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
-// )
-
-// ZMK_LAYER(sym,
-// //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-//     &kp EXCL      &kp AT_SIGN &kp LEFT_BRACE &kp RIGHT_BRACE &kp PIPE       &kp PLUS      &kp N7        &kp N8        &kp N9        &kp ASTERISK
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//     &hml LSHFT HASH &hml LALT DOLLAR &hml LGUI LPAR &hml LCTRL RPAR  &kp GRAVE  &kp MINUS &hmr LCTRL N4  &hmr LGUI N5    &hmr LALT N6    &hmr RSHFT SEMICOLON
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//     &kp PERCENT   &kp CARET   &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TILDE  &kp EQUAL     &kp N1        &kp N2        &kp N3        &kp N0
-// //╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
-//                                               &lt SYS TAB   &bs_del         &lt_spc SYS 0  XXX
-// //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
-// )
-
-// ZMK_LAYER(nav,
-// //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-//     &kp ESC       &kp F1         &kp F2       &kp F3        &kp F4        &kp PRINTSCREEN &kp PAGE_DOWN &kp PAGE_UP   &kp CAPSLOCK  MOVETO_1
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//     &kp LC(C)     &kp F5         &kp F6       &kp F7        &kp F8          &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     MOVETO_2
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//     &kp LC(V)     &kp F9         &kp F10      &kp F11       &kp F12         TERM_LEFT     WRKSPC_DN     WRKSPC_UP     TERM_RIGHT    MOVETO_3
-// //╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
-//                                               &lt SYS TAB   &bs_del      &lt_spc SYS 0  XXX
-// //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
-// )
-//
-// ZMK_LAYER(sys,
-// //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-//     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_EFR &kp CAPSLOCK     XXX
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//         XXX           XXX           XXX           XXX           XXX       &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI  XXX
-// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-//     &bt BT_CLR    &bt BT_PRV    &bt BT_NXT        XXX      &bt BT_CLR_ALL &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD  XXX
-// //╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
-//                                                   XXX           XXX            XXX            XXX
-// //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
-// )
-
-ZMK_COMBO(esc, &kp ESC, LT3 LT2, BASE SYM NAV, 18, 150)
+ZMK_COMBO(esc, &kp ESC, LT3 LT2, BASE MACOS SYM NAV, 18, 150)
 
 /* vim: set ft=c tw=174: */
