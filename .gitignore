@@ -2,7 +2,6 @@
 .direnv
 .venv
 .west
-firmware
 modules
 zmk
 # Ignore keymap-drawer output for now
