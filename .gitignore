@@ -11,3 +11,4 @@ config/splitkb_aurora_sweep.full
 config/splitkb_aurora_sweep.old
 draw/.last_draw_timestamp
 .DS_Store
+__pycache__/
