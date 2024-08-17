@@ -8,27 +8,27 @@
 #define SYM 2
 #define NAV 3
 #define SYS 4
-
 #define XXX &none
 #define ___ &trans
 
 /* Global settings */
+
 #define QUICK_TAP_MS 175
 
-&led_strip {
-    chain-length = <23>;
-};
-
-&sk {  // sticky-key config
+&led_strip { chain-length = <23>; };
+// sticky-key config
+&sk {
     release-after-ms = <900>;  // release after 0.6s
     quick-release;             // no double capitalization when rolling keys
 };
 
-&sl {  // sticky-layer config
+// sticky-layer config
+&sl {
     ignore-modifiers;          // allow chording sticky mods & layers
 };
 
-&lt {  // layer-tap config
+// layer-tap config
+&lt {
     flavor = "balanced";
     tapping-term-ms = <200>;
     quick-tap-ms = <QUICK_TAP_MS>;
@@ -53,6 +53,7 @@
             quick-tap-ms = <QUICK_TAP_MS>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
+
             hold-trigger-key-positions = <KEYS_R THUMBS>;
             hold-trigger-on-release;
         };
@@ -66,6 +67,7 @@
             quick-tap-ms = <QUICK_TAP_MS>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
+
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
         };
@@ -85,6 +87,7 @@
             label = "SPACE_MORPH";
             #binding-cells = <0>;
             bindings = <&kp SPACE>, <&dot_spc>;
+
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -93,6 +96,7 @@
             label = "COMMA_MORPH";
             #binding-cells = <0>;
             bindings = <&kp COMMA>, <&comma_inner_morph>;
+
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -101,6 +105,7 @@
             label = "COMMA_INNER_MORPH";
             #binding-cells = <0>;
             bindings = <&kp SEMICOLON>, <&kp LESS_THAN>;
+
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
@@ -109,6 +114,7 @@
             label = "DOT_MORPH";
             #binding-cells = <0>;
             bindings = <&kp DOT>, <&dot_inner_morph>;
+
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
@@ -117,6 +123,7 @@
             label = "DOT_INNER_MORPH";
             #binding-cells = <0>;
             bindings = <&kp COLON>, <&kp GREATER_THAN>;
+
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
@@ -125,6 +132,7 @@
             label = "BACKSPACE_DELETE";
             #binding-cells = <0>;
             bindings = <&kp BSPC>, <&kp DEL>;
+
             mods = <(MOD_LSFT|MOD_RSFT)>;
             keep-mods = <MOD_RSFT>;
         };
@@ -146,52 +154,53 @@
 
         base_layer {
             bindings = <
-    &kp Q         &kp W         &kp F         &kp P         &kp B           &kp J         &kp L         &kp U         &kp Y         &kp SQT
-    &hml LSHFT A  &hml LALT R   &hml LGUI S   &hml LCTRL T  &kp G           &kp M         &hmr LCTRL N  &hmr LGUI E   &hmr LALT I   &hmr RSHFT O
-    &kp Z         &kp X         &kp C         &kp D         &kp V           &kp K         &kp H         &comma_morph  &dot_morph    &kp SLASH
-                                              &lt SYM TAB   &bs_del         &lt_spc NAV 0 &lt SYM RET
+&kp Q         &kp W        &kp F        &kp P         &kp B    &kp J  &kp L         &kp U         &kp Y          &kp SQT
+&hml LSHFT A  &hml LALT R  &hml LGUI S  &hml LCTRL T  &kp G    &kp M  &hmr LCTRL N  &hmr LGUI E   &hmr LALT I    &hmr RSHFT O
+&kp Z         &kp X        &kp C        &kp D         &kp V    &kp K  &kp H         &comma_morph  &dot_morph     &kp SLASH
+&lt SYM TAB   &bs_del                                                                             &lt_spc NAV 0  &lt SYM RET
             >;
         };
 
         macos_layer {
             bindings = <
-    &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans
-    &trans        &trans        &hml LCTRL S  &hml LGUI T   &trans          &trans        &hmr LGUI N   &hmr LCTRL E  &trans        &trans
-    &trans        &trans        &trans        &trans        &trans          &trans        &trans        &trans        &trans        &trans
-                                              &trans        &trans          &trans        &trans
+&trans  &trans  &trans        &trans       &trans    &trans  &trans       &trans        &trans  &trans
+&trans  &trans  &hml LCTRL S  &hml LGUI T  &trans    &trans  &hmr LGUI N  &hmr LCTRL E  &trans  &trans
+&trans  &trans  &trans        &trans       &trans    &trans  &trans       &trans        &trans  &trans
+&trans  &trans                                                                          &trans  &trans
             >;
         };
 
         sym_layer {
             bindings = <
-    &kp EXCL      &kp AT        &kp LBRC      &kp RBRC      &kp PIPE        &kp PLUS      &kp N7        &kp N8        &kp N9        &kp STAR
-    &hml LSHFT HASH &hml LALT DLLR &hml LGUI LPAR &hml LCTRL RPAR &kp GRAVE &kp MINUS     &hmr LCTRL N4 &hmr LGUI N5  &hmr LALT N6  &hmr RSHFT SEMI
-    &kp PRCNT     &kp CARET     &kp LBKT      &kp RBKT      &kp TILDE       &kp EQUAL     &kp N1        &kp N2        &kp N3        &kp N0
-                                              &lt SYS TAB   &bs_del         &lt_spc SYS 0  &lt SYM RET
+&kp EXCL         &kp AT          &kp LBRC        &kp RBRC         &kp PIPE     &kp PLUS   &kp N7         &kp N8        &kp N9         &kp STAR
+&hml LSHFT HASH  &hml LALT DLLR  &hml LGUI LPAR  &hml LCTRL RPAR  &kp GRAVE    &kp MINUS  &hmr LCTRL N4  &hmr LGUI N5  &hmr LALT N6   &hmr RSHFT SEMI
+&kp PRCNT        &kp CARET       &kp LBKT        &kp RBKT         &kp TILDE    &kp EQUAL  &kp N1         &kp N2        &kp N3         &kp N0
+&lt SYS TAB      &bs_del                                                                                               &lt_spc SYS 0  &lt SYM RET
             >;
         };
 
         nav_layer {
             bindings = <
-    &kp ESC       &kp F1        &kp F2        &kp F3        &kp F4          &kp PSCRN     &kp PG_DN     &kp PG_UP     &kp CAPS      &kp LS(LC(N1))
-    &kp LC(C)     &kp F5        &kp F6        &kp F7        &kp F8          &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     &kp LS(LC(N2))
-    &kp LC(V)     &kp F9        &kp F10       &kp F11       &kp F12         &kp LS(LC(LEFT)) &kp LS(LA(LC(DOWN))) &kp LS(LA(LC(UP))) &kp LS(LC(RIGHT)) &kp LS(LC(N3))
-                                              &lt SYS TAB   &bs_del         &none         &lt SYS RET
+&kp ESC      &kp F1   &kp F2   &kp F3   &kp F4     &kp PSCRN         &kp PG_DN             &kp PG_UP           &kp CAPS           &kp LS(LC(N1))
+&kp LC(C)    &kp F5   &kp F6   &kp F7   &kp F8     &kp LEFT          &kp DOWN              &kp UP              &kp RIGHT          &kp LS(LC(N2))
+&kp LC(V)    &kp F9   &kp F10  &kp F11  &kp F12    &kp LS(LC(LEFT))  &kp LS(LA(LC(DOWN)))  &kp LS(LA(LC(UP)))  &kp LS(LC(RIGHT))  &kp LS(LC(N3))
+&lt SYS TAB  &bs_del                                                                                           &none              &lt SYS RET
             >;
         };
 
         sys_layer {
             bindings = <
-    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_EFR &kp CAPS      &tog MACOS
-    &none         &none         &none         &none         &none           &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI &none
-    &bt BT_CLR    &bt BT_PRV    &bt BT_NXT    &none         &bt BT_CLR_ALL  &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &none
-                                              &none         &none           &none           &none
+&bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4      &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &kp CAPS         &tog MACOS
+&none         &none         &none         &none         &none             &rgb_ug RGB_HUI  &rgb_ug RGB_SAI  &rgb_ug RGB_BRI  &rgb_ug RGB_SPI  &none
+&bt BT_CLR    &bt BT_PRV    &bt BT_NXT    &none         &bt BT_CLR_ALL    &rgb_ug RGB_HUD  &rgb_ug RGB_SAD  &rgb_ug RGB_BRD  &rgb_ug RGB_SPD  &none
+&none         &none                                                                                                          &none            &none
             >;
         };
     };
 
     combos {
         compatible = "zmk,combos";
+
         combo_esc {
             timeout-ms = <50>;
             key-positions = <1 2>;
