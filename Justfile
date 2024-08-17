@@ -60,7 +60,7 @@ _build_single $board $shield *west_args:
     fi
 
 # build firmware for matching targets
-build expr *west_args: _parse_combos
+build expr='sweep' *west_args='': _parse_combos
     #!/usr/bin/env bash
     set -euo pipefail
     targets=$(just _parse_targets {{ expr }})
@@ -82,13 +82,6 @@ clean-all: clean
 clean-nix:
     nix-collect-garbage --delete-old
 
-# parse & plot keymap
-draw:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/{{ draw_keymap }}.keymap" >"{{ draw }}/{{ draw_keymap }}.yaml"
-    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/{{ draw_keymap }}.yaml" -k {{ draw_keyboard }} >"{{ draw }}/{{ draw_keymap }}.svg"
-
 # initialize west
 init:
     west init -l config
@@ -106,6 +99,36 @@ update:
 # upgrade zephyr-sdk and python dependencies
 upgrade-sdk:
     nix flake update --flake .
+
+# parse & plot keymap
+draw:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/{{ draw_keymap }}.keymap" >"{{ draw }}/{{ draw_keymap }}.yaml"
+    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/{{ draw_keymap }}.yaml" -k {{ draw_keyboard }} >"{{ draw }}/{{ draw_keymap }}.svg"
+
+# watch for changes on .keymap file and generate svg
+draw-watch:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    KEYMAP_FILE="{{ config }}/{{ draw_keymap }}.keymap"
+    TIMESTAMP_FILE="{{ draw }}/.last_draw_timestamp"
+    SVG_FILE="{{ draw }}/{{ draw_keymap }}.svg"
+
+    # Create timestamp file if it doesn't exist
+    touch -a "$TIMESTAMP_FILE"
+
+    while true; do
+        if [[ "$KEYMAP_FILE" -nt "$TIMESTAMP_FILE" ]]; then
+            echo "Keymap file changed. Running draw command..."
+            just draw
+            echo "Keymap SVG generated. Waiting for at least 60 seconds..."
+            sleep 60
+        else
+            sleep 1
+        fi
+    done
 
 # flash firmware to the keyboard
 flash:

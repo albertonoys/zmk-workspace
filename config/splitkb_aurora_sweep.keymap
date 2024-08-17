@@ -41,7 +41,7 @@
 
 #define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4  // left hand
 #define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4  // right hand
-#define THUMBS LH1 LH0 RH0 RH1                                      // thumbs
+#define THUMBS LH1 LH0 RH0 RH1                                              // thumbs
 
 #define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS) \
     ZMK_HOLD_TAP(NAME, \
@@ -89,7 +89,7 @@ SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
 SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp GREATER_THAN)
 
 // tap: qmark | shift + tap: excl
-SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
+// SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
 
 // // tap: copy | double-tap: cut
 // ZMK_TAP_DANCE(copy_cut, tap_dance,
@@ -110,10 +110,10 @@ ZMK_MOD_MORPH(bs_del,
 #define MOVETO_3 &kp LS(LC(N3))
 
 #define TERM_LEFT   &kp LS(LC(LEFT))
-#define TERM_RIGHT   &kp LS(LC(RIGHT))
+#define TERM_RIGHT  &kp LS(LC(RIGHT))
 
-#define WRKSPC_DN &kp LS(LA(LC(DOWN)))
-#define WRKSPC_UP &kp LS(LA(LC(UP)))
+#define WRKSPC_DN   &kp LS(LA(LC(DOWN)))
+#define WRKSPC_UP   &kp LS(LA(LC(UP)))
 
 / {
     keymap {
@@ -123,8 +123,8 @@ ZMK_MOD_MORPH(bs_del,
             bindings = <
     &kp Q         &kp W         &kp F         &kp P         &kp B           &kp J         &kp L         &kp U         &kp Y         &kp SQT
     &hml LSHFT A  &hml LALT R   &hml LGUI S   &hml LCTRL T  &kp G           &kp M         &hmr LCTRL N  &hmr LGUI  E  &hmr LALT I   &hmr RSHFT O
-    &kp Z         &kp X         &kp C         &kp D         &kp V           &kp K         &kp H         &comma_morph  &dot_morph    &qexcl
-                                              &lt NAV TAB   &bs_del         &lt_spc NAV 0 &lt SYM RET
+    &kp Z         &kp X         &kp C         &kp D         &kp V           &kp K         &kp H         &comma_morph  &dot_morph    &kp SLASH
+                                              &lt SYM TAB   &bs_del         &lt_spc NAV 0 &lt SYM RET
             >;
         };
 
@@ -133,7 +133,7 @@ ZMK_MOD_MORPH(bs_del,
     &kp EXCL      &kp AT_SIGN   &kp LEFT_BRACE &kp RIGHT_BRACE &kp PIPE     &kp PLUS      &kp N7        &kp N8        &kp N9        &kp ASTERISK
     &hml LSHFT HASH &hml LALT DOLLAR &hml LGUI LPAR &hml LCTRL RPAR &kp GRAVE &kp MINUS   &hmr LCTRL N4 &hmr LGUI N5  &hmr LALT N6  &hmr RSHFT SEMICOLON
     &kp PERCENT   &kp CARET     &kp LEFT_BRACKET &kp RIGHT_BRACKET &kp TILDE &kp EQUAL    &kp N1        &kp N2        &kp N3        &kp N0
-                                              &lt SYS TAB   &bs_del         &lt_spc SYS 0 &none
+                                              &lt SYS TAB   &bs_del         &lt_spc SYS 0 &lt SYM RET
             >;
         };
 
@@ -142,7 +142,7 @@ ZMK_MOD_MORPH(bs_del,
     &kp ESC       &kp F1        &kp F2        &kp F3        &kp F4          &kp PRINTSCREEN &kp PAGE_DOWN &kp PAGE_UP &kp CAPSLOCK  MOVETO_1
     &kp LC(C)     &kp F5        &kp F6        &kp F7        &kp F8          &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     MOVETO_2
     &kp LC(V)     &kp F9        &kp F10       &kp F11       &kp F12         TERM_LEFT     WRKSPC_DN     WRKSPC_UP     TERM_RIGHT    MOVETO_3
-                                              &lt SYS TAB   &bs_del         &lt_spc SYS 0 &none
+                                              &lt SYS TAB   &bs_del         &none         &lt_spc SYS 0
             >;
         };
 
