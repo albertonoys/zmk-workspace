@@ -151,17 +151,33 @@ ZMK_LAYER(nav,
 //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
 )
 
-ZMK_LAYER(sys,
-//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_EFR &kp CAPSLOCK     XXX
-//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-        XXX           XXX           XXX           XXX           XXX       &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI  XXX
-//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &bt BT_CLR    &bt BT_PRV    &bt BT_NXT        XXX      &bt BT_CLR_ALL &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD  XXX
-//╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
-                                                  XXX           XXX            XXX            XXX
-//                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
-)
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        sys {
+            bindings = <
+    &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_EFR &kp CAPSLOCK  &none
+    &none         &none         &none         &none         &none           &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI &none
+    &bt BT_CLR    &bt BT_PRV    &bt BT_NXT    &none         &bt BT_CLR_ALL  &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD &none
+                                              &none         &none           &none           &none
+            >;
+        };
+    };
+};
+
+
+// ZMK_LAYER(sys,
+// //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+//     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_EFR &kp CAPSLOCK     XXX
+// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+//         XXX           XXX           XXX           XXX           XXX       &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &rgb_ug RGB_SPI  XXX
+// //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+//     &bt BT_CLR    &bt BT_PRV    &bt BT_NXT        XXX      &bt BT_CLR_ALL &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &rgb_ug RGB_SPD  XXX
+// //╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯
+//                                                   XXX           XXX            XXX            XXX
+// //                                          ╰─────────────┴─────────────╯ ╰─────────────┴─────────────╯
+// )
 
 ZMK_COMBO(esc, &kp ESC, LT3 LT2, BASE SYM NAV, 18, 150)
 
