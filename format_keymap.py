@@ -1,7 +1,7 @@
 import re
 import sys
 
-CELL_WIDTH = 19
+CELL_WIDTH = 21
 
 def extract_layers(file_content):
     layer_pattern = r'(\w+_layer)\s*{([^}]*)}'

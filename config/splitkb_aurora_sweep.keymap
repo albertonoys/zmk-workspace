@@ -11,31 +11,45 @@
 #define XXX &none
 #define ___ &trans
 
-/* Global settings */
-
 #define QUICK_TAP_MS 175
 
 &led_strip { chain-length = <23>; };
 
-// sticky-key config
+/* sticky-key config */
 &sk {
     release-after-ms = <900>;  // release after 0.6s
     quick-release;             // no double capitalization when rolling keys
 };
 
-// sticky-layer config
+/* sticky-layer config */
 &sl {
     ignore-modifiers;          // allow chording sticky mods & layers
 };
 
-// layer-tap config
+/* layer-tap config */
 &lt {
     flavor = "balanced";
     tapping-term-ms = <200>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
 
+/* Shortcut aliases */
+
+#define MOVETO_1    &kp LS(LC(N1))
+#define MOVETO_2    &kp LS(LC(N2))
+#define MOVETO_3    &kp LS(LC(N3))
+
+#define TERM_LEFT   &kp LS(LC(LEFT))
+#define TERM_RIGHT  &kp LS(LC(RIGHT))
+
+#define DESK_UP     &kp LS(LA(LC(UP)))
+#define DESK_DOWN   &kp LS(LA(LC(DOWN)))
+
+#define COPY        &kp LC(C)
+#define PASTE       &kp LC(V)
+
 /* Homerow mods */
+
 #define KEYS_L 0 1 2 3 4 10 11 12 13 14 20 21 22 23 24  // left hand
 #define KEYS_R 5 6 7 8 9 15 16 17 18 19 25 26 27 28 29  // right hand
 #define THUMBS 30 31 32 33                              // thumbs
@@ -211,11 +225,11 @@
         nav_layer {
             bindings = <
 //╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮ ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
-    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PG_DN         &kp PG_UP         &kp CAPS          &kp LS(LC(N1))
+    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PG_DN         &kp PG_UP         &kp CAPS          MOVETO_1
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    &kp LC(C)         &kp F5            &kp F6            &kp F7            &kp F8              &kp LEFT          &kp DOWN          &kp UP            &kp RIGHT         &kp LS(LC(N2))
+    COPY         &kp F5            &kp F6            &kp F7            &kp F8              &kp LEFT          &kp DOWN          &kp UP            &kp RIGHT         MOVETO_2
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    &kp LC(V)         &kp F9            &kp F10           &kp F11           &kp F12            &kp LS(LC(LEFT))  &kp LS(LA(LC(DOWN))) &kp LS(LA(LC(UP))) &kp LS(LC(RIGHT)) &kp LS(LC(N3))
+    PASTE         &kp F9            &kp F10           &kp F11           &kp F12             TERM_LEFT  DESK_DOWN DESK_UP TERM_RIGHT MOVETO_3
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
                                                           &trans            &trans              &trans            &lt SYS RET
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
