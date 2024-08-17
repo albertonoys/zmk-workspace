@@ -48,160 +48,327 @@
 
 /* Homerow mods */
 
-#define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS) \
-    ZMK_HOLD_TAP(NAME, \
-        flavor = "balanced"; \
-        tapping-term-ms = <280>; \
-        quick-tap-ms = <QUICK_TAP_MS>; \
-        require-prior-idle-ms = <150>; \
-        bindings = <HOLD>, <TAP>; \
-        hold-trigger-key-positions = <TRIGGER_POS>; \
-        hold-trigger-on-release; \
-    )
-MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
-MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
+#define KEYS_L LT0 LT1 LT2 LT3 LT4 LM0 LM1 LM2 LM3 LM4 LB0 LB1 LB2 LB3 LB4  // left hand
+#define KEYS_R RT0 RT1 RT2 RT3 RT4 RM0 RM1 RM2 RM3 RM4 RB0 RB1 RB2 RB3 RB4  // right hand
+#define THUMBS LH1 LH0 RH0 RH1                                      // thumbs
 
-MAKE_HRM(hml_repeat, &kp, &key_repeat, KEYS_R THUMBS)  // used for HRM-combo
-MAKE_HRM(hmr_lpar_lt, &kp, &lpar_lt, KEYS_L THUMBS)    // "    "   "   "
-MAKE_HRM(hmr_rpar_gt, &kp, &rpar_gt, KEYS_L THUMBS)    // "    "   "   "
+/ {
+    behaviors {
+        /* Homerow mods */
 
-/* Nav cluster */
+        hml: homerow_mods_left {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS_LEFT";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <KEYS_R THUMBS>;  // right-hand keys and thumbs
+            hold-trigger-on-release;
+        };
 
-// long-tap action on hold, short-tap action on all interrupts
-#define MT_CORE \
-    flavor = "tap-preferred"; \
-    tapping-term-ms = <220>; \
-    quick-tap-ms = <220>; \
-    hold-trigger-key-positions = <0>;
+        hmr: homerow_mods_right {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS_RIGHT";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+            hold-trigger-key-positions = <KEYS_L THUMBS>;  // left-hand keys and thumbs
+            hold-trigger-on-release;
+        };
 
-&mt { MT_CORE };
-ZMK_HOLD_TAP(mt_home, bindings = <&masked_home>, <&kp>; MT_CORE)
-ZMK_HOLD_TAP(mt_end, bindings = <&masked_end>, <&kp>; MT_CORE)
+        // used for HRM-combo
+        hml_repeat: homerow_mods_left_repeat {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS_LEFT_REPEAT";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&key_repeat>;
+            hold-trigger-key-positions = <KEYS_R THUMBS>;
+            hold-trigger-on-release;
+        };
 
-#define NAV_LEFT  &mt_home 0   LEFT    // tap: left  | long-tap: beginning of line
-#define NAV_RIGHT &mt_end 0    RIGHT   // tap: right | long-tap: end       of line
-#define NAV_UP    &mt LC(HOME) UP      // tap: up    | long-tap: beginning of document
-#define NAV_DOWN  &mt LC(END)  DOWN    // tap: down  | long-tap: end       of document
-#define NAV_BSPC  &mt LC(BSPC) BSPC    // tap: bspc  | long-tap: delete word backward
-#define NAV_DEL   &mt LC(DEL)  DEL     // tap: del   | long-tap: delete word forward
+        hmr_lpar_lt: homerow_mods_right_lpar_lt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS_RIGHT_LPAR_LT";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&lpar_lt>;
+            hold-trigger-key-positions = <KEYS_L THUMBS>;
+            hold-trigger-on-release;
+        };
 
-// mask CTRL when holding left/right to avoid accidental jumps to beginning/end of document
-#define MASK_MODS(NAME, MODS, BINDING) \
-    ZMK_MOD_MORPH(NAME, \
-        bindings = <BINDING>, <BINDING>; \
-        mods = <MODS>; \
-    )
-MASK_MODS(masked_home, (MOD_LCTL), &kp HOME)
-MASK_MODS(masked_end,  (MOD_LCTL), &kp END)
+        hmr_rpar_gt: homerow_mods_right_rpar_gt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS_RIGHT_RPAR_GT";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&rpar_gt>;
+            hold-trigger-key-positions = <KEYS_L THUMBS>;
+            hold-trigger-on-release;
+        };
 
-/* Caps-word, num-word and smart-mouse */
+        /* Nav cluster */
 
-// tap: sticky-shift | shift + tap/ double-tap: caps-word | hold: shift
-ZMK_MOD_MORPH(smart_shft,
-    bindings = <&sk LSHFT>, <&caps_word>;
-    mods = <(MOD_LSFT)>;
-)
-&caps_word {  // mods deactivate caps-word, requires PR #1451
-    /delete-property/ ignore-modifiers;
+        // long-tap action on hold, short-tap action on all interrupts
+        mt: mod_tap {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MOD_TAP";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            quick-tap-ms = <220>;
+            hold-trigger-key-positions = <0>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        mt_home: mod_tap_home {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MOD_TAP_HOME";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            quick-tap-ms = <220>;
+            hold-trigger-key-positions = <0>;
+            bindings = <&masked_home>, <&kp>;
+        };
+
+        mt_end: mod_tap_end {
+            compatible = "zmk,behavior-hold-tap";
+            label = "MOD_TAP_END";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            quick-tap-ms = <220>;
+            hold-trigger-key-positions = <0>;
+            bindings = <&masked_end>, <&kp>;
+        };
+
+        // mask CTRL when holding left/right to avoid accidental jumps to beginning/end of document
+        masked_home: masked_home {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MASKED_HOME";
+            #binding-cells = <0>;
+            bindings = <&kp HOME>, <&kp HOME>;
+            mods = <(MOD_LCTL)>;
+        };
+
+        masked_end: masked_end {
+            compatible = "zmk,behavior-mod-morph";
+            label = "MASKED_END";
+            #binding-cells = <0>;
+            bindings = <&kp END>, <&kp END>;
+            mods = <(MOD_LCTL)>;
+        };
+
+        /* Caps-word, num-word and smart-mouse */
+
+        // tap: sticky-shift | shift + tap/ double-tap: caps-word | hold: shift
+        smart_shft: smart_shift {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SMART_SHIFT";
+            #binding-cells = <0>;
+            bindings = <&sk LSHFT>, <&caps_word>;
+            mods = <(MOD_LSFT)>;
+        };
+
+        // tap: num-word | double-tap: sticky num-layer | hold: num-layer
+        smart_num: smart_num {
+            compatible = "zmk,behavior-hold-tap";
+            label = "SMART_NUM";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            bindings = <&mo>, <&num_dance>;
+        };
+
+        num_dance: num_word_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "NUM_WORD_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&num_word NUM>, <&sl NUM>;
+        };
+
+        // smart-mouse, requires PR #1366
+        smart_mouse: smart_mouse {
+            compatible = "zmk,behavior-tri-state";
+            label = "SMART_MOUSE";
+            #binding-cells = <0>;
+            bindings = <&tog MOUSE>, <&none>, <&tog MOUSE>;
+            ignored-key-positions = <LT1 LT3 RT0 RT1 RT2 RT3 RT4 RM1 RM2 RM3 RB1 RB2 RB3 RH0 RH1>;
+            ignored-layers = <MOUSE>;
+        };
+
+        /* Custom behaviors */
+
+        // Alt+Tab swapper, requires PR #1366
+        swapper: swapper {
+            compatible = "zmk,behavior-tri-state";
+            label = "SWAPPER";
+            #binding-cells = <0>;
+            bindings = <&kt LALT>, <&kp TAB>, <&kt LALT>;
+            ignored-key-positions = <LT2>;
+        };
+
+        // Sticky layer + sticky shift (workaround for issue #1421)
+        sls: sticky_layer_shift {
+            compatible = "zmk,behavior-sticky-key";
+            label = "STICKY_LAYER_SHIFT";
+            #binding-cells = <1>;
+            release-after-ms = <1000>;
+            bindings = <&uc_shift>;
+            ignore-modifiers;
+        };
+
+        // tap: comma | shift + tap: semicolon | ctrl + shift + tap: <
+        comma_morph: comma_morph {
+            compatible = "zmk,behavior-mod-morph";
+            label = "COMMA_MORPH";
+            #binding-cells = <0>;
+            bindings = <&kp COMMA>, <&comma_inner_morph>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        comma_inner_morph: comma_inner_morph {
+            compatible = "zmk,behavior-mod-morph";
+            label = "COMMA_INNER_MORPH";
+            #binding-cells = <0>;
+            bindings = <&kp SEMICOLON>, <&kp LESS_THAN>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        // tap: dot | shift + tap: colon | ctrl + shift + tap: >
+        dot_morph: dot_morph {
+            compatible = "zmk,behavior-mod-morph";
+            label = "DOT_MORPH";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&dot_inner_morph>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        dot_inner_morph: dot_inner_morph {
+            compatible = "zmk,behavior-mod-morph";
+            label = "DOT_INNER_MORPH";
+            #binding-cells = <0>;
+            bindings = <&kp COLON>, <&kp GREATER_THAN>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
+
+        // tap: qmark | shift + tap: excl
+        qexcl: question_exclamation {
+            compatible = "zmk,behavior-mod-morph";
+            label = "QUESTION_EXCLAMATION";
+            #binding-cells = <0>;
+            bindings = <&kp QMARK>, <&kp EXCL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        // tap: left/right parenthesis | shft + tap: less-than/greater-than
+        lpar_lt: left_parenthesis_less_than {
+            compatible = "zmk,behavior-mod-morph";
+            label = "LEFT_PARENTHESIS_LESS_THAN";
+            #binding-cells = <0>;
+            bindings = <&kp LPAR>, <&kp LT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        rpar_gt: right_parenthesis_greater_than {
+            compatible = "zmk,behavior-mod-morph";
+            label = "RIGHT_PARENTHESIS_GREATER_THAN";
+            #binding-cells = <0>;
+            bindings = <&kp RPAR>, <&kp GT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        // tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
+        lt_spc: layer_tap_space {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LAYER_TAP_SPACE";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            bindings = <&mo>, <&spc_morph>;
+        };
+
+        spc_morph: space_morph {
+            compatible = "zmk,behavior-mod-morph";
+            label = "SPACE_MORPH";
+            #binding-cells = <0>;
+            bindings = <&kp SPACE>, <&dot_spc>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        // tap: backspace | lshft + tap: delete | rshft + tap: shift-delete
+        bs_del: backspace_delete {
+            compatible = "zmk,behavior-mod-morph";
+            label = "BACKSPACE_DELETE";
+            #binding-cells = <0>;
+            bindings = <&kp BSPC>, <&kp DEL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+            keep-mods = <MOD_RSFT>;
+        };
+
+        // tap: copy | double-tap: cut
+        copy_cut: copy_cut {
+            compatible = "zmk,behavior-tap-dance";
+            label = "COPY_CUT";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp LC(INS)>, <&kp LC(X)>;
+        };
+    };
+
+    macros {
+        // Sticky layer + sticky shift (workaround for issue #1421)
+        uc_shift: unicode_shift {
+            compatible = "zmk,behavior-macro";
+            label = "UNICODE_SHIFT";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <1>;
+            bindings = <&macro_press &mo UC &kp LSHFT>,
+                       <&macro_pause_for_release>,
+                       <&macro_release &mo UC &kp LSHFT>;
+        };
+
+        // tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
+        dot_spc: dot_space {
+            compatible = "zmk,behavior-macro";
+            label = "DOT_SPACE";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <5>;
+            bindings = <&kp DOT &kp SPACE &sk LSHFT>;
+        };
+
+        // Windows sleep key
+        win_sleep: windows_sleep {
+            compatible = "zmk,behavior-macro";
+            label = "WINDOWS_SLEEP";
+            #binding-cells = <0>;
+            wait-ms = <500>;
+            tap-ms = <50>;
+            bindings = <&kp LG(X) &kp U &kp S>;
+        };
+    };
 };
-
-// tap: num-word | double-tap: sticky num-layer | hold: num-layer
-#define SMART_NUM &smart_num NUM 0
-ZMK_HOLD_TAP(smart_num,
-    flavor = "balanced";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <QUICK_TAP_MS>;
-    bindings = <&mo>, <&num_dance>;
-)
-ZMK_TAP_DANCE(num_dance,
-    tapping-term-ms = <200>;
-    bindings = <&num_word NUM>, <&sl NUM>;  // reverse this for sticky-num on single tap
-)
-
-// smart-mouse, requires PR #1366
-ZMK_TRI_STATE(smart_mouse,
-    bindings = <&tog MOUSE>, <&none>, <&tog MOUSE>;
-    ignored-key-positions = <LT1 LT3 RT0 RT1 RT2 RT3 RT4 RM1 RM2 RM3 RB1 RB2 RB3 RH0 RH1>;
-    ignored-layers = <MOUSE>;
-)
-
-/* Custom behaviors */
-
-// Alt+Tab swapper, requires PR #1366
-ZMK_TRI_STATE(swapper,
-    bindings = <&kt LALT>, <&kp TAB>, <&kt LALT>;
-    ignored-key-positions = <LT2>;
-)
-
-// Sticky layer + sticky shift (workaround for issue #1421)
-ZMK_STICKY_KEY(sls,
-    release-after-ms = <1000>;
-    bindings = <&uc_shift>;
-    ignore-modifiers;
-)
-ZMK_MACRO(uc_shift,
-    wait-ms = <0>;
-    tap-ms = <1>;
-    bindings = <&macro_press &mo UC &kp LSHFT>
-             , <&macro_pause_for_release>
-             , <&macro_release &mo UC &kp LSHFT>;
-)
-
-// reuse basic mod-morph scheme
-#define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2) \
-    ZMK_MOD_MORPH(NAME, \
-        mods = <(MOD_L ## MOD|MOD_R ## MOD)>; \
-        bindings = <BINDING1>, <BINDING2>; \
-    )
-
-// tap: comma | shift + tap: semicolon | ctrl + shift + tap: <
-SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &comma_inner_morph)
-SIMPLE_MORPH(comma_inner_morph, CTL, &kp SEMICOLON, &kp LESS_THAN)
-
-// tap: dot | shift + tap: colon | ctrl + shift + tap: >
-SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &dot_inner_morph)
-SIMPLE_MORPH(dot_inner_morph, CTL, &kp COLON, &kp GREATER_THAN)
-
-// tap: qmark | shift + tap: excl
-SIMPLE_MORPH(qexcl, SFT, &kp QMARK, &kp EXCL)
-
-// tap: left/right parenthesis | shft + tap: less-than/greater-than
-SIMPLE_MORPH(lpar_lt, SFT, &kp LPAR, &kp LT)
-SIMPLE_MORPH(rpar_gt, SFT, &kp RPAR, &kp GT)
-
-// tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
-ZMK_HOLD_TAP(lt_spc,
-    flavor = "balanced";
-    tapping-term-ms = <200>;
-    quick-tap-ms = <QUICK_TAP_MS>;
-    bindings = <&mo>, <&spc_morph>;
-)
-SIMPLE_MORPH(spc_morph, SFT, &kp SPACE, &dot_spc)
-ZMK_MACRO(dot_spc,
-    wait-ms = <0>;
-    tap-ms = <5>;
-    bindings = <&kp DOT &kp SPACE &sk LSHFT>;
-)
-
-// tap: backspace | lshft + tap: delete | rshft + tap: shift-delete
-ZMK_MOD_MORPH(bs_del,
-    bindings = <&kp BSPC>, <&kp DEL>;
-    mods = <(MOD_LSFT|MOD_RSFT)>;
-    keep-mods = <MOD_RSFT>;
-)
-
-// tap: copy | double-tap: cut
-ZMK_TAP_DANCE(copy_cut,
-    tapping-term-ms = <200>;
-    bindings = <&kp LC(INS)>, <&kp LC(X)>;
-)
-
-// Windows sleep key
-ZMK_MACRO(win_sleep,
-    wait-ms = <500>;
-    tap-ms = <50>;
-    bindings = <&kp LG(X) &kp U &kp S>;
-)
 
 // misc aliases
 #define CANCEL      &kp K_CANCEL             // cancel caps-word, num-word and smart-mouse
@@ -214,7 +381,7 @@ ZMK_MACRO(win_sleep,
 
 /* Keymap */
 
-ZMK_CONDITIONAL_LAYER(sys, FN NUM, SYS)  // FN + NUM --> SYS
+// ZMK_CONDITIONAL_LAYER(sys, FN NUM, SYS)  // FN + NUM --> SYS
 
 ZMK_LAYER(base,
 //╭──────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭──────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭──────╮
@@ -224,13 +391,13 @@ ZMK_LAYER(base,
 //├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤
     X_LB     &kp Z         &kp X         &kp C         &kp D         &kp V           X_MB     &kp K         &kp H         &comma_morph  &dot_morph    &qexcl          X_RB
 //├──────┤ ╰─────────────┼─────────────┴─────────────┼─────────────┼─────────────┤ ├──────┤ ├─────────────┼─────────────┼─────────────┴───────────────────────────╯ ├──────┤
-    X_LH                                               &lt_spc NAV 0 &lt FN RET      X_MH     SMART_NUM     &smart_shft                                               X_RH
+    X_LH                                               &lt_spc NAV 0 &lt FN RET      X_MH     &none     &smart_shft                                               X_RH
 //╰──────╯                                           ╰─────────────┴─────────────╯ ╰──────╯ ╰─────────────┴─────────────╯                                           ╰──────╯
 )
 
 ZMK_LAYER(nav,
 //╭──────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭──────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭──────╮
-    X_LT     ___           ___           &kp LS(TAB)   &swapper      ___             X_MT     &kp PG_UP     NAV_BSPC      NAV_UP        NAV_DEL       ___             X_RT
+    X_LT     ___           ___           &kp LS(TAB)   &none      ___             X_MT     &kp PG_UP     NAV_BSPC      NAV_UP        NAV_DEL       ___             X_RT
 //├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤
     X_LM     &sk LGUI      &sk LALT      &sk LSHFT     &sk LCTRL     ___             X_MM     &kp PG_DN     NAV_LEFT      NAV_DOWN      NAV_RIGHT     &kp RET         X_RM
 //├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├──────┤

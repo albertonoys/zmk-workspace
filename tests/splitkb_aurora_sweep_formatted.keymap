@@ -11,28 +11,42 @@
 #define XXX &none
 #define ___ &trans
 
-/* Global settings */
-
 #define QUICK_TAP_MS 175
 
 &led_strip { chain-length = <23>; };
-// sticky-key config
+
+/* sticky-key config */
 &sk {
     release-after-ms = <900>;  // release after 0.6s
     quick-release;             // no double capitalization when rolling keys
 };
 
-// sticky-layer config
+/* sticky-layer config */
 &sl {
     ignore-modifiers;          // allow chording sticky mods & layers
 };
 
-// layer-tap config
+/* layer-tap config */
 &lt {
     flavor = "balanced";
     tapping-term-ms = <200>;
     quick-tap-ms = <QUICK_TAP_MS>;
 };
+
+/* Shortcut aliases */
+
+#define MOVETO_1    &kp LS(LC(N1))
+#define MOVETO_2    &kp LS(LC(N2))
+#define MOVETO_3    &kp LS(LC(N3))
+
+#define TERM_LEFT   &kp LS(LC(LEFT))
+#define TERM_RIGHT  &kp LS(LC(RIGHT))
+
+#define DESK_UP     &kp LS(LA(LC(UP)))
+#define DESK_DOWN   &kp LS(LA(LC(DOWN)))
+
+#define COPY        &kp LC(C)
+#define PASTE       &kp LC(V)
 
 /* Homerow mods */
 
@@ -72,6 +86,7 @@
             hold-trigger-on-release;
         };
 
+        // tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
         lt_spc: layer_tap_space_mod {
             compatible = "zmk,behavior-hold-tap";
             label = "LAYER_TAP_SPACE_MOD";
@@ -91,6 +106,7 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
+        // tap: comma | shift + tap: semicolon | ctrl + shift + tap: <
         comma_morph: comma_morph {
             compatible = "zmk,behavior-mod-morph";
             label = "COMMA_MORPH";
@@ -109,6 +125,7 @@
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
+        // tap: dot | shift + tap: colon | ctrl + shift + tap: >
         dot_morph: dot_morph {
             compatible = "zmk,behavior-mod-morph";
             label = "DOT_MORPH";
@@ -127,7 +144,18 @@
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
-        bs_del: backspace_delete {
+        lt_bs_del: layer_tap_backspace_mod {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LAYER_TAP_BACKSPACE_MOD";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <QUICK_TAP_MS>;
+            bindings = <&mo>, <&bs_del_morph>;
+        };
+
+        // tap: backspace | lshft + tap: delete | rshft + tap: shift-delete
+        bs_del_morph: backspace_delete_morph {
             compatible = "zmk,behavior-mod-morph";
             label = "BACKSPACE_DELETE";
             #binding-cells = <0>;
@@ -161,9 +189,9 @@
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
     &kp Z             &kp X             &kp C             &kp D             &kp V               &kp K             &kp H             &comma_morph      &dot_morph        &kp SLASH
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
-                                                          &lt SYM TAB       &bs_del             &lt_spc NAV 0     &lt SYM RET
+                                                          &lt NAV TAB       &lt_bs_del SYM 0    &lt_spc NAV 0     &lt SYM RET
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
-            >;;
+            >;
         };
 
         macos_layer {
@@ -177,7 +205,7 @@
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
                                                           &trans            &trans              &trans            &trans
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
-            >;;
+            >;
         };
 
         sym_layer {
@@ -189,23 +217,23 @@
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
     &kp PRCNT         &kp CARET         &kp LBKT          &kp RBKT          &kp TILDE           &kp EQUAL         &kp N1            &kp N2            &kp N3            &kp N0
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
-                                                          &lt SYS TAB       &bs_del             &lt_spc SYS 0     &lt SYM RET
+                                                          &lt SYS TAB       &trans              &lt_spc SYS 0     &kp N0
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
-            >;;
+            >;
         };
 
         nav_layer {
             bindings = <
 //╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮ ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
-    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PG_DN         &kp PG_UP         &kp CAPS          &kp LS
+    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PG_DN         &kp PG_UP         &kp CAPS          MOVETO_1
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    &kp LC            &kp F5            &kp F6            &kp F7            &kp F8              &kp LEFT          &kp DOWN          &kp UP            &kp RIGHT         &kp LS
+    COPY              &kp F5            &kp F6            &kp F7            &kp F8              &kp LEFT          &kp DOWN          &kp UP            &kp RIGHT         MOVETO_2
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    &kp LC            &kp F9            &kp F10           &kp F11           &kp F12             &kp LS            &kp LS            &kp LS            &kp LS            &kp LS
+    PASTE             &kp F9            &kp F10           &kp F11           &kp F12             TERM_LEFT         DESK_DOWN         DESK_UP           TERM_RIGHT        MOVETO_3
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
-                                                          &lt SYS TAB       &bs_del             &none             &lt SYS RET
+                                                          &trans            &trans              &trans            &lt SYS RET
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
-            >;;
+            >;
         };
 
         sys_layer {
@@ -219,7 +247,7 @@
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
                                                           &none             &none               &none             &none
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
-            >;;
+            >;
         };
     };
 
