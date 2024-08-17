@@ -5,6 +5,8 @@ config := absolute_path('config')
 build := absolute_path('.build')
 out := absolute_path('firmware')
 draw := absolute_path('draw')
+draw_keymap := 'splitkb_aurora_sweep'
+draw_keyboard := 'ferris/sweep'
 
 # parse combos.dtsi and adjust settings to not run out of slots
 _parse_combos:
@@ -84,8 +86,8 @@ clean-nix:
 draw:
     #!/usr/bin/env bash
     set -euo pipefail
-    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/base.keymap" >"{{ draw }}/base.yaml"
-    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/base.yaml" -k "ferris/sweep" >"{{ draw }}/base.svg"
+    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/{{ draw_keymap }}.keymap" >"{{ draw }}/{{ draw_keymap }}.yaml"
+    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/{{ draw_keymap }}.yaml" -k {{ draw_keyboard }} >"{{ draw }}/{{ draw_keymap }}.svg"
 
 # initialize west
 init:
