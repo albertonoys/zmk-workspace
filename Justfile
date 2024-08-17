@@ -104,3 +104,53 @@ update:
 # upgrade zephyr-sdk and python dependencies
 upgrade-sdk:
     nix flake update --flake .
+
+# flash firmware to the keyboard
+flash:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        MOUNT_POINT="/Volumes/NICENANO"
+    else
+        MOUNT_POINT="/media/$USER/NICENANO"
+    fi
+
+    firmware_dir="{{ out }}"
+    left_firmware=$(find "$firmware_dir" -name "*left*.uf2")
+    right_firmware=$(find "$firmware_dir" -name "*right*.uf2")
+
+    if [[ -z $left_firmware || -z $right_firmware ]]; then
+        echo "Error: Left or right firmware not found in $firmware_dir" >&2
+        exit 1
+    fi
+
+    echo "Found firmware files:"
+    echo "Left: $left_firmware"
+    echo "Right: $right_firmware"
+
+    flash_side() {
+        local side=$1
+        local firmware_file=$2
+        echo "Waiting for ${side} half to be mounted..."
+        while [ ! -d "$MOUNT_POINT" ]; do
+            sleep 1
+        done
+
+        echo "Copying ${side} firmware..."
+        if cp "$firmware_file" "$MOUNT_POINT/" 2>/dev/null || true; then
+            echo "✓ Started flashing ${side} firmware"
+        else
+            echo "Warning: Unexpected error while copying ${side} firmware" >&2
+        fi
+
+        echo "Waiting for ${side} half to be unmounted..."
+        while [ -d "$MOUNT_POINT" ]; do
+            sleep 1
+        done
+    }
+
+    flash_side "left" "$left_firmware"
+    flash_side "right" "$right_firmware"
+
+    echo "Firmware flashing process completed! 🎉"
