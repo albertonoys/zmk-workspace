@@ -60,28 +60,24 @@
     behaviors {
         hml: homerow_mods_left {
             compatible = "zmk,behavior-hold-tap";
-            label = "HOMEROW_MODS_LEFT";
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <280>;
             quick-tap-ms = <QUICK_TAP_MS>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
-
             hold-trigger-key-positions = <KEYS_R THUMBS>;
             hold-trigger-on-release;
         };
 
         hmr: homerow_mods_right {
             compatible = "zmk,behavior-hold-tap";
-            label = "HOMEROW_MODS_RIGHT";
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <280>;
             quick-tap-ms = <QUICK_TAP_MS>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
-
             hold-trigger-key-positions = <KEYS_L THUMBS>;
             hold-trigger-on-release;
         };
@@ -89,7 +85,6 @@
         // tap: space | shift + tap: dot -> space -> sticky shift | hold: activate layer
         lt_spc: layer_tap_space_mod {
             compatible = "zmk,behavior-hold-tap";
-            label = "LAYER_TAP_SPACE_MOD";
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
@@ -99,54 +94,43 @@
 
         spc_morph: space_morph {
             compatible = "zmk,behavior-mod-morph";
-            label = "SPACE_MORPH";
             #binding-cells = <0>;
             bindings = <&kp SPACE>, <&dot_spc>;
-
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         // tap: comma | shift + tap: semicolon | ctrl + shift + tap: <
         comma_morph: comma_morph {
             compatible = "zmk,behavior-mod-morph";
-            label = "COMMA_MORPH";
             #binding-cells = <0>;
             bindings = <&kp COMMA>, <&comma_inner_morph>;
-
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         comma_inner_morph: comma_inner_morph {
             compatible = "zmk,behavior-mod-morph";
-            label = "COMMA_INNER_MORPH";
             #binding-cells = <0>;
             bindings = <&kp SEMICOLON>, <&kp LESS_THAN>;
-
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
         // tap: dot | shift + tap: colon | ctrl + shift + tap: >
         dot_morph: dot_morph {
             compatible = "zmk,behavior-mod-morph";
-            label = "DOT_MORPH";
             #binding-cells = <0>;
             bindings = <&kp DOT>, <&dot_inner_morph>;
-
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
 
         dot_inner_morph: dot_inner_morph {
             compatible = "zmk,behavior-mod-morph";
-            label = "DOT_INNER_MORPH";
             #binding-cells = <0>;
             bindings = <&kp COLON>, <&kp GREATER_THAN>;
-
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
         lt_bs_del: layer_tap_backspace_mod {
             compatible = "zmk,behavior-hold-tap";
-            label = "LAYER_TAP_BACKSPACE_MOD";
             #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
@@ -157,10 +141,8 @@
         // tap: backspace | lshft + tap: delete | rshft + tap: shift-delete
         bs_del_morph: backspace_delete_morph {
             compatible = "zmk,behavior-mod-morph";
-            label = "BACKSPACE_DELETE";
             #binding-cells = <0>;
             bindings = <&kp BSPC>, <&kp DEL>;
-
             mods = <(MOD_LSFT|MOD_RSFT)>;
             keep-mods = <MOD_RSFT>;
         };
@@ -168,7 +150,6 @@
 
     macros {
         dot_spc: dot_space {
-            label = "DOT_SPACE";
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <0>;
