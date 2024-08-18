@@ -8,9 +8,9 @@ draw := absolute_path('draw')
 draw_keymap := 'splitkb_aurora_sweep'
 draw_keyboard := 'ferris/sweep'
 
-# Import recipes from /justfiles
-import 'justfiles/build.just'
-import 'justfiles/flash.just'
+# Import recipes from /just-recipes
+import 'just-recipes/build.just'
+import 'just-recipes/flash.just'
 
 # clear build cache and artifacts
 [group('env-maintenance')]
