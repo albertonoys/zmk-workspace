@@ -11,13 +11,17 @@ pre-push:
   commands:
     build:
       priority: 1
+      glob: "config/*sweep.{keymap,conf}"
       run: just build && git add firmware/
     draw:
       priority: 2
+      glob: "config/*sweep.{keymap,conf}"
       run: just draw && git add draw/
     test-runner:
       priority: 3
+      glob: "config/*sweep.{keymap,conf}"
       run: git add tests/ && just test || echo "Tests failed, but continuing with commit"
       skip_output: true
     amend:
+      glob: "config/*sweep.{keymap,conf}"
       run: git add firmware/ && git add draw/ && git add tests/ && git commit --amend --no-edit
