@@ -36,6 +36,11 @@
           pkgs.ninja
           pkgs.qemu # needed for native_posix target
 
+          pkgs.just               # just
+          pkgs.yq                 # yq
+          pkgs.lefthook           # lefthook
+          pkgs.gum                # Tasty Bubble Gum for your shell
+
           # Uncomment these if you don't have system-wide versions:
           # pkgs.gawk             # awk
           # pkgs.unixtools.column # column
@@ -43,10 +48,7 @@
           # pkgs.diffutils        # diff
           # pkgs.findutils        # find, xargs
           # pkgs.gnugrep          # grep
-          pkgs.just               # just
           # pkgs.gnused           # sed
-          pkgs.yq                 # yq
-          pkgs.lefthook           # lefthook
         ];
       };
     });

@@ -1,5 +1,5 @@
-default:
-    @just --list --unsorted
+_default:
+    @just --list --groups
 
 config := absolute_path('config')
 build := absolute_path('.build')
@@ -8,178 +8,59 @@ draw := absolute_path('draw')
 draw_keymap := 'splitkb_aurora_sweep'
 draw_keyboard := 'ferris/sweep'
 
-# parse combos.dtsi and adjust settings to not run out of slots
-_parse_combos:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    cconf="{{ config / 'combos.dtsi' }}"
-    if [[ -f $cconf ]]; then
-        # set MAX_COMBOS_PER_KEY to the most frequent combos count
-        count=$(
-            tail -n +10 $cconf |
-                grep -Eo '[LR][TMBH][0-9]' |
-                sort | uniq -c | sort -nr |
-                awk 'NR==1{print $1}'
-        )
-        sed -Ei "/CONFIG_ZMK_COMBO_MAX_COMBOS_PER_KEY/s/=.+/=$count/" "{{ config }}"/*.conf
-        echo "Setting MAX_COMBOS_PER_KEY to $count"
-
-        # set MAX_KEYS_PER_COMBO to the most frequent key count
-        count=$(
-            tail -n +10 $cconf |
-                grep -o -n '[LR][TMBH][0-9]' |
-                cut -d : -f 1 | uniq -c | sort -nr |
-                awk 'NR==1{print $1}'
-        )
-        sed -Ei "/CONFIG_ZMK_COMBO_MAX_KEYS_PER_COMBO/s/=.+/=$count/" "{{ config }}"/*.conf
-        echo "Setting MAX_KEYS_PER_COMBO to $count"
-    fi
-
-# parse build.yaml and filter targets by expression
-_parse_targets $expr:
-    #!/usr/bin/env bash
-    attrs="[.board, .shield]"
-    filter="(($attrs | map(. // [.]) | combinations), ((.include // {})[] | $attrs)) | join(\",\")"
-    echo "$(yq -r "$filter" build.yaml | grep -v "^," | grep -i "${expr/#all/.*}")"
-
-# build firmware for single board & shield combination
-_build_single $board $shield *west_args:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    artifact="${shield:+${shield// /+}-}${board}"
-    build_dir="{{ build / '$artifact' }}"
-
-    echo "Building firmware for $artifact..."
-    west build -s zmk/app -d "$build_dir" -b $board {{ west_args }} -- \
-        -DZMK_CONFIG="{{ config }}" ${shield:+-DSHIELD="$shield"}
-
-    if [[ -f "$build_dir/zephyr/zmk.uf2" ]]; then
-        mkdir -p "{{ out }}" && cp "$build_dir/zephyr/zmk.uf2" "{{ out }}/$artifact.uf2"
-    else
-        mkdir -p "{{ out }}" && cp "$build_dir/zephyr/zmk.bin" "{{ out }}/$artifact.bin"
-    fi
-
-# build firmware for matching targets
-build expr='sweep' *west_args='': _parse_combos
-    #!/usr/bin/env bash
-    set -euo pipefail
-    targets=$(just _parse_targets {{ expr }})
-
-    [[ -z $targets ]] && echo "No matching targets found. Aborting..." >&2 && exit 1
-    echo "$targets" | while IFS=, read -r board shield; do
-        just _build_single "$board" "$shield" {{ west_args }}
-    done
+# Import recipes from /justfiles
+import 'justfiles/build.just'
+import 'justfiles/flash.just'
 
 # clear build cache and artifacts
+[group('env-maintenance')]
+[confirm]
 clean:
     rm -rf {{ build }} {{ out }}
 
 # clear all automatically generated files
+[group('env-maintenance')]
+[confirm]
 clean-all: clean
     rm -rf .west zmk
 
 # clear nix cache
+[group('env-maintenance')]
 clean-nix:
     nix-collect-garbage --delete-old
 
 # initialize west
+[group('env-maintenance')]
 init:
     west init -l config
     west update
     west zephyr-export
 
-# list build targets
-list:
-    @just _parse_targets all | sed 's/,$//' | sort | column
-
 # update west
+[group('env-maintenance')]
 update:
     west update
 
 # upgrade zephyr-sdk and python dependencies
+[group('env-maintenance')]
 upgrade-sdk:
     nix flake update --flake .
 
+# list build targets
+[group('ZMK')]
+list:
+    @just _parse_targets all | sed 's/,$//' | sort | column
+
 # parse & plot keymap
+[group('ZMK')]
 draw:
     #!/usr/bin/env bash
     set -euo pipefail
     keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/{{ draw_keymap }}.keymap" >"{{ draw }}/{{ draw_keymap }}.yaml"
     keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/{{ draw_keymap }}.yaml" -k {{ draw_keyboard }} >"{{ draw }}/{{ draw_keymap }}.svg"
 
-# watch for changes on .keymap file and generate svg
-draw-watch:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    KEYMAP_FILE="{{ config }}/{{ draw_keymap }}.keymap"
-    TIMESTAMP_FILE="{{ draw }}/.last_draw_timestamp"
-    SVG_FILE="{{ draw }}/{{ draw_keymap }}.svg"
-
-    # Create timestamp file if it doesn't exist
-    touch -a "$TIMESTAMP_FILE"
-
-    while true; do
-        if [[ "$KEYMAP_FILE" -nt "$TIMESTAMP_FILE" ]]; then
-            echo "Keymap file changed. Running draw command..."
-            just draw
-            echo "Keymap SVG generated. Waiting for at least 60 seconds..."
-            sleep 60
-        else
-            sleep 1
-        fi
-    done
-
-# flash firmware to the keyboard
-flash:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        MOUNT_POINT="/Volumes/NICENANO"
-    else
-        MOUNT_POINT="/media/$USER/NICENANO"
-    fi
-
-    firmware_dir="{{ out }}"
-    left_firmware=$(find "$firmware_dir" -name "*left*.uf2")
-    right_firmware=$(find "$firmware_dir" -name "*right*.uf2")
-
-    if [[ -z $left_firmware || -z $right_firmware ]]; then
-        echo "Error: Left or right firmware not found in $firmware_dir" >&2
-        exit 1
-    fi
-
-    echo "Found firmware files:"
-    echo "Left: $left_firmware"
-    echo "Right: $right_firmware"
-
-    flash_side() {
-        local side=$1
-        local firmware_file=$2
-        echo "Waiting for ${side} half to be mounted..."
-        while [ ! -d "$MOUNT_POINT" ]; do
-            sleep 1
-        done
-
-        echo "Copying ${side} firmware..."
-        if cp "$firmware_file" "$MOUNT_POINT/" 2>/dev/null || true; then
-            echo "✓ Started flashing ${side} firmware"
-        else
-            echo "Warning: Unexpected error while copying ${side} firmware" >&2
-        fi
-
-        echo "Waiting for ${side} half to be unmounted..."
-        while [ -d "$MOUNT_POINT" ]; do
-            sleep 1
-        done
-    }
-
-    flash_side "left" "$left_firmware"
-    flash_side "right" "$right_firmware"
-
-    echo "Firmware flashing process completed! 🎉"
-
+#run tests
+[group('ZMK')]
 test:
     cp config/splitkb_aurora_sweep.keymap tests/splitkb_aurora_sweep_formatted.keymap
     python -m unittest tests/test_format_keymap.py
