@@ -179,3 +179,7 @@ flash:
     flash_side "right" "$right_firmware"
 
     echo "Firmware flashing process completed! 🎉"
+
+test:
+    cp config/splitkb_aurora_sweep.keymap tests/splitkb_aurora_sweep_formatted.keymap
+    python -m unittest tests/test_format_keymap.py

@@ -46,6 +46,7 @@
           pkgs.just               # just
           # pkgs.gnused           # sed
           pkgs.yq                 # yq
+          pkgs.lefthook           # lefthook
         ];
       };
     });

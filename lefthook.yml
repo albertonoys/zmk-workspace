@@ -1,0 +1,23 @@
+output:
+  - summary        # Print summary block (successful and failed steps)
+  - empty_summary  # Print summary heading when there are no steps to run
+  - success        # Print successful steps
+  - failure        # Print failed steps printing
+  - skips          # Print "skip" (i.e. no files matched)
+
+pre-push:
+  piped: true
+  files: ls config/*sweep.{keymap,conf}
+  commands:
+    build:
+      priority: 1
+      run: just build && git add firmware/
+    draw:
+      priority: 2
+      run: just draw && git add draw/
+    test-runner:
+      priority: 3
+      run: git add tests/ && just test || echo "Tests failed, but continuing with commit"
+      skip_output: true
+    amend:
+      run: git add firmware/ && git add draw/ && git add tests/ && git commit --amend --no-edit
