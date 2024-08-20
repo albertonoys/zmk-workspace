@@ -3,6 +3,9 @@
 flash:
     #!/usr/bin/env bash
 
+    gum style --foreground 196 "There's a bug with cp and the firmware doesn't get copied reliably. Exiting... :'("
+    exit 1
+
     FIRMWARE_DIR="{{ out }}"
 
     # Detect OS and set mount point
