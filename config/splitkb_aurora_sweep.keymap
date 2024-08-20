@@ -220,7 +220,7 @@
             timeout-ms = <COMBO_TERM_SLOW>;
             bindings = <&mo SYS>;
             key-positions = <30 33>;
-            layers = <BASE MACOS SYM NAV>;
+            layers = <BASE MACOS>;
             require-prior-idle-ms = <COMBO_IDLE_SLOW>;
         };
     };
