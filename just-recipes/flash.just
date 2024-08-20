@@ -59,7 +59,7 @@ flash:
         local firmware_name=$3
 
         gum spin --spinner dot --title "Copying $half half firmware..." -- bash -c "
-            cp "$firmware_file" "$MOUNT_POINT/" > /dev/null 2>&1"
+            cp "$firmware_file" "$MOUNT_POINT/" > /dev/null 2>&1 && sleep 2"
 
         gum style --foreground 212 "✓ Successfully flashed ${firmware_name} to ${side} half"
     }
