@@ -89,6 +89,52 @@
             hold-trigger-on-release;
         };
 
+        // long-tap action on hold, short-tap action on all interrupts
+        mt: mod_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            quick-tap-ms = <220>;
+            hold-trigger-key-positions = <0>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        mt_home: mod_tap_home {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            quick-tap-ms = <220>;
+            hold-trigger-key-positions = <0>;
+            bindings = <&masked_home>, <&kp>;
+        };
+
+        mt_end: mod_tap_end {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <220>;
+            quick-tap-ms = <220>;
+            // hold-trigger-keypositions = <0>;
+            bindings = <&masked_end>, <&kp>;
+        };
+
+        // mask CTRL when holding left/right to avoid accidental jumps to beginning/end of document
+        masked_home: masked_home {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp HOME>, <&kp HOME>;
+            mods = <(MOD_LCTL)>;
+        };
+
+        masked_end: masked_end {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp END>, <&kp END>;
+            mods = <(MOD_LCTL)>;
+        };
+
         // tap: space | shift + tap: space -> sticky shift | hold: activate layer
         lt_spc: layer_tap_space_mod {
             compatible = "zmk,behavior-hold-tap";
@@ -169,7 +215,7 @@
         compatible = "zmk,combos";
 
         esc {
-            timeout-ms = <COMBO_TERM_FAST>;
+            timeout-ms = <COMBO_TERM_SLOW>;
             bindings = <&kp ESC>;
             key-positions = <1 2>;
             layers = <BASE MACOS SYM NAV>;
@@ -215,14 +261,6 @@
             layers = <MACOS>;
             require-prior-idle-ms = <COMBO_IDLE_FAST>;
         };
-
-        sys_layer {
-            timeout-ms = <COMBO_TERM_SLOW>;
-            bindings = <&mo SYS>;
-            key-positions = <30 33>;
-            layers = <BASE MACOS>;
-            require-prior-idle-ms = <COMBO_IDLE_SLOW>;
-        };
     };
 
     conditional_layers {
@@ -232,6 +270,13 @@
             then-layer = <SYS>;
         };
     };
+
+#define NAV_LEFT  &mt_home 0   LEFT    // tap: left  | long-tap: beginning of line
+#define NAV_RIGHT &mt_end 0    RIGHT   // tap: right | long-tap: end       of line
+#define NAV_UP    &mt LC(HOME) UP      // tap: up    | long-tap: beginning of document
+#define NAV_DOWN  &mt LC(END)  DOWN    // tap: down  | long-tap: end       of document
+#define NAV_BSPC  &mt LC(BSPC) BSPC    // tap: bspc  | long-tap: delete word backward
+#define NAV_DEL   &mt LC(DEL)  DEL     // tap: del   | long-tap: delete word forward
 
     keymap {
         compatible = "zmk,keymap";
@@ -269,9 +314,9 @@
 //╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮ ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
     &kp EXCL          &kp AT            &kp LBRC          &kp RBRC          &kp PIPE            &kp PLUS          &kp N7            &kp N8            &kp N9            &kp STAR
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    &hml LSHFT HASH   &hml LALT DLLR    &hml LGUI LPAR    &hml LCTRL RPAR   &kp GRAVE           &kp MINUS         &hmr LCTRL N4     &hmr LGUI N5      &hmr LALT N6      &hmr RSHFT SEMI
+    &hml LSHFT HASH   &hml LALT DLLR    &hml LGUI LPAR    &hml LCTRL RPAR   &kp CARET           &kp MINUS         &hmr LCTRL N4     &hmr LGUI N5      &hmr LALT N6      &hmr RSHFT GRAVE
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    &kp PRCNT         &kp CARET         &kp LBKT          &kp RBKT          &kp TILDE           &kp EQUAL         &kp N1            &kp N2            &kp N3            &kp N0
+    &kp PRCNT         &kp AMPERSAND     &kp LBKT          &kp RBKT          &kp TILDE           &kp EQUAL         &kp N1            &kp N2            &kp N3            &kp N0
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
                                                           &trans            &trans              &trans            &kp N0
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
@@ -281,13 +326,13 @@
         nav_layer {
             bindings = <
 //╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮ ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
-    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PG_UP         &kp UP            &kp PG_DN         MOVETO_1
+    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PG_UP         NAV_UP            &kp PG_DN         MOVETO_1
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-   &hml LSHFT K_COPY  &hml LALT F5      &hml LGUI F6      &hml LCTRL F7     &kp F8              &kp HOME          &kp LEFT          &kp DOWN          &kp RIGHT         &kp END
+    &kp LSHFT         &hml LALT F5      &hml LGUI F6      &hml LCTRL F7     &kp F8              &none             NAV_LEFT          NAV_DOWN          NAV_RIGHT         &none
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    _PASTE            &kp F9            &kp F10           &kp F11           &kp F12             TERM_LEFT         DESK_DOWN         DESK_UP           TERM_RIGHT        MOVETO_2
+    &none             &kp F9            &kp F10           &kp F11           &kp F12             TERM_LEFT         DESK_DOWN         DESK_UP           TERM_RIGHT        MOVETO_2
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
-                                                          &trans            &trans              &trans            &trans
+                                                          &lt SYS TAB       &trans              &trans            &lt SYS RET
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
             >;
         };
