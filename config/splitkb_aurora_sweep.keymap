@@ -14,8 +14,8 @@
 #define QUICK_TAP_MS 175
 #define QUICK_TAP_MS_SLOW 250
 
-#define COMBO_TERM_FAST 18
-#define COMBO_TERM_SLOW 30
+#define COMBO_TERM_FAST 30
+#define COMBO_TERM_SLOW 50
 
 #define COMBO_IDLE_FAST 150
 #define COMBO_IDLE_SLOW 50
@@ -98,41 +98,6 @@
             quick-tap-ms = <220>;
             hold-trigger-key-positions = <0>;
             bindings = <&kp>, <&kp>;
-        };
-
-        mt_home: mod_tap_home {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <220>;
-            quick-tap-ms = <220>;
-            hold-trigger-key-positions = <0>;
-            bindings = <&masked_home>, <&kp>;
-        };
-
-        mt_end: mod_tap_end {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <220>;
-            quick-tap-ms = <220>;
-            // hold-trigger-keypositions = <0>;
-            bindings = <&masked_end>, <&kp>;
-        };
-
-        // mask CTRL when holding left/right to avoid accidental jumps to beginning/end of document
-        masked_home: masked_home {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp HOME>, <&kp HOME>;
-            mods = <(MOD_LCTL)>;
-        };
-
-        masked_end: masked_end {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp END>, <&kp END>;
-            mods = <(MOD_LCTL)>;
         };
 
         // tap: space | shift + tap: space -> sticky shift | hold: activate layer
@@ -263,19 +228,19 @@
         };
 
         activate_sys {
-            timeout-ms = <50>;
+            timeout-ms = <COMBO_TERM_SLOW>;
             bindings = <&mo SYS>;
             key-positions = <30 33>;
             layers = <BASE MACOS SYM NAV>;
         };
     };
 
-#define NAV_LEFT  &mt_home 0   LEFT    // tap: left  | long-tap: beginning of line
-#define NAV_RIGHT &mt_end 0    RIGHT   // tap: right | long-tap: end       of line
-#define NAV_UP    &mt LC(HOME) UP      // tap: up    | long-tap: beginning of document
-#define NAV_DOWN  &mt LC(END)  DOWN    // tap: down  | long-tap: end       of document
-#define NAV_BSPC  &mt LC(BSPC) BSPC    // tap: bspc  | long-tap: delete word backward
-#define NAV_DEL   &mt LC(DEL)  DEL     // tap: del   | long-tap: delete word forward
+#define NAV_LEFT  &mt LA(LEFT)  LEFT    // tap: left  | long-tap: left word by word
+#define NAV_RIGHT &mt LA(RIGHT) RIGHT   // tap: right | long-tap: right word by word
+#define NAV_UP    &mt PAGE_UP   UP      // tap: up    | long-tap: page up
+#define NAV_DOWN  &mt PAGE_DOWN DOWN    // tap: down  | long-tap: page down
+// #define NAV_BSPC  &mt LC(BSPC)  BSPC    // tap: bspc  | long-tap: delete word backward
+// #define NAV_DEL   &mt LC(DEL)   DEL     // tap: del   | long-tap: delete word forward
 
     keymap {
         compatible = "zmk,keymap";
@@ -325,7 +290,7 @@
         nav_layer {
             bindings = <
 //╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮ ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
-    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PG_UP         NAV_UP            &kp PG_DN         MOVETO_1
+    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &none             NAV_UP            &none             MOVETO_1
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
     &kp LSHFT         &hml LALT F5      &hml LGUI F6      &hml LCTRL F7     &kp F8              &none             NAV_LEFT          NAV_DOWN          NAV_RIGHT         MOVETO_2
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤

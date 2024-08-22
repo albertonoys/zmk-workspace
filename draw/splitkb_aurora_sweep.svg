@@ -602,20 +602,14 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 <g transform="translate(476, 44)" class="key keypos-6">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">Page</tspan><tspan x="0" dy="1.2em">Up</tspan>
-</text>
 </g>
 <g transform="translate(532, 28)" class="key keypos-7">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">↑</text>
-<text x="0" y="22" class="key hold"><tspan style="font-size: 67%">Ctl+ …</tspan></text>
+<text x="0" y="22" class="key hold"><tspan style="font-size: 67%">PAGE …</tspan></text>
 </g>
 <g transform="translate(588, 46)" class="key keypos-8">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">Page</tspan><tspan x="0" dy="1.2em">Down</tspan>
-</text>
 </g>
 <g transform="translate(644, 81)" class="key keypos-9">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -652,20 +646,23 @@ svg.keymap{font-size: 17px;}</style>
 <g transform="translate(476, 100)" class="key keypos-16">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">←</text>
-<text x="0" y="22" class="key hold">Home</text>
+<text x="0" y="22" class="key hold"><tspan style="font-size: 67%">Alt+ ←</tspan></text>
 </g>
 <g transform="translate(532, 84)" class="key keypos-17">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">↓</text>
-<text x="0" y="22" class="key hold"><tspan style="font-size: 67%">Ctl+ …</tspan></text>
+<text x="0" y="22" class="key hold"><tspan style="font-size: 67%">PAGE …</tspan></text>
 </g>
 <g transform="translate(588, 102)" class="key keypos-18">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">→</text>
-<text x="0" y="22" class="key hold">End</text>
+<text x="0" y="22" class="key hold"><tspan style="font-size: 67%">Alt+ →</tspan></text>
 </g>
 <g transform="translate(644, 137)" class="key keypos-19">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
+<text x="0" y="-4" class="key tap">
+<tspan x="0" dy="-0.6em" style="font-size: 67%">Sft+C…</tspan><tspan x="0" dy="1.2em" style="font-size: 67%">2</tspan>
+</text>
 </g>
 <g transform="translate(28, 193)" class="key keypos-20">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -694,15 +691,9 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 <g transform="translate(476, 156)" class="key keypos-26">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">Meh+</tspan><tspan x="0" dy="1.2em">↓</tspan>
-</text>
 </g>
 <g transform="translate(532, 140)" class="key keypos-27">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">Meh+</tspan><tspan x="0" dy="1.2em">↑</tspan>
-</text>
 </g>
 <g transform="translate(588, 158)" class="key keypos-28">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -713,7 +704,7 @@ svg.keymap{font-size: 17px;}</style>
 <g transform="translate(644, 193)" class="key keypos-29">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em" style="font-size: 67%">Sft+C…</tspan><tspan x="0" dy="1.2em" style="font-size: 67%">2</tspan>
+<tspan x="0" dy="-0.6em" style="font-size: 67%">Sft+C…</tspan><tspan x="0" dy="1.2em" style="font-size: 67%">3</tspan>
 </text>
 </g>
 <g transform="translate(221, 221) rotate(15.0)" class="key held keypos-30">
