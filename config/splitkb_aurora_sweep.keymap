@@ -237,8 +237,8 @@
 
 #define NAV_LEFT  &mt LA(LEFT)  LEFT    // tap: left  | long-tap: left word by word
 #define NAV_RIGHT &mt LA(RIGHT) RIGHT   // tap: right | long-tap: right word by word
-#define NAV_UP    &mt PAGE_UP   UP      // tap: up    | long-tap: page up
-#define NAV_DOWN  &mt PAGE_DOWN DOWN    // tap: down  | long-tap: page down
+// #define NAV_UP    &mt PAGE_UP   UP      // tap: up    | long-tap: page up
+// #define NAV_DOWN  &mt PAGE_DOWN DOWN    // tap: down  | long-tap: page down
 // #define NAV_BSPC  &mt LC(BSPC)  BSPC    // tap: bspc  | long-tap: delete word backward
 // #define NAV_DEL   &mt LC(DEL)   DEL     // tap: del   | long-tap: delete word forward
 
@@ -290,9 +290,9 @@
         nav_layer {
             bindings = <
 //╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮ ╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
-    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &none             NAV_UP            &none             MOVETO_1
+    &kp ESC           &kp F1            &kp F2            &kp F3            &kp F4              &kp PSCRN         &kp PAGE_UP       &kp UP            &kp PAGE_DOWN     MOVETO_1
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-    &kp LSHFT         &hml LALT F5      &hml LGUI F6      &hml LCTRL F7     &kp F8              &none             NAV_LEFT          NAV_DOWN          NAV_RIGHT         MOVETO_2
+    &kp LSHFT         &hml LALT F5      &hml LGUI F6      &hml LCTRL F7     &kp F8              &none             NAV_LEFT          &kp DOWN          NAV_RIGHT         MOVETO_2
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
     &none             &kp F9            &kp F10           &kp F11           &kp F12             TERM_LEFT         &none             &none             TERM_RIGHT        MOVETO_3
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
