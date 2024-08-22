@@ -127,7 +127,6 @@
         // long-tap action on hold, short-tap action on all interrupts
         mt: mod_tap {
             compatible = "zmk,behavior-hold-tap";
-            label = "MOD_TAP";
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <220>;
@@ -138,7 +137,6 @@
 
         mt_home: mod_tap_home {
             compatible = "zmk,behavior-hold-tap";
-            label = "MOD_TAP_HOME";
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <220>;
@@ -149,7 +147,6 @@
 
         mt_end: mod_tap_end {
             compatible = "zmk,behavior-hold-tap";
-            label = "MOD_TAP_END";
             #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <220>;
@@ -161,7 +158,6 @@
         // mask CTRL when holding left/right to avoid accidental jumps to beginning/end of document
         masked_home: masked_home {
             compatible = "zmk,behavior-mod-morph";
-            label = "MASKED_HOME";
             #binding-cells = <0>;
             bindings = <&kp HOME>, <&kp HOME>;
             mods = <(MOD_LCTL)>;
@@ -169,7 +165,6 @@
 
         masked_end: masked_end {
             compatible = "zmk,behavior-mod-morph";
-            label = "MASKED_END";
             #binding-cells = <0>;
             bindings = <&kp END>, <&kp END>;
             mods = <(MOD_LCTL)>;
@@ -180,7 +175,6 @@
         // tap: sticky-shift | shift + tap/ double-tap: caps-word | hold: shift
         smart_shft: smart_shift {
             compatible = "zmk,behavior-mod-morph";
-            label = "SMART_SHIFT";
             #binding-cells = <0>;
             bindings = <&sk LSHFT>, <&caps_word>;
             mods = <(MOD_LSFT)>;

@@ -224,7 +224,7 @@
 
         copy {
             timeout-ms = <COMBO_TERM_SLOW>;
-            bindings = <&kp LC(INS)>;
+            bindings = <&kp LC(C)>;
             key-positions = <21 22>;
             layers = <BASE SYM NAV>;
             require-prior-idle-ms = <COMBO_IDLE_FAST>;
@@ -232,7 +232,7 @@
 
         copy_mac {
             timeout-ms = <COMBO_TERM_SLOW>;
-            bindings = <&kp LG(INS)>;
+            bindings = <&kp LG(C)>;
             key-positions = <21 22>;
             layers = <MACOS>;
             require-prior-idle-ms = <COMBO_IDLE_FAST>;
@@ -261,13 +261,12 @@
             layers = <MACOS>;
             require-prior-idle-ms = <COMBO_IDLE_FAST>;
         };
-    };
 
-    conditional_layers {
-        compatible = "zmk,conditional-layers";
-        tri_layer {
-            if-layers = <NAV SYM>;
-            then-layer = <SYS>;
+        activate_sys {
+            timeout-ms = <50>;
+            bindings = <&mo SYS>;
+            key-positions = <30 33>;
+            layers = <BASE MACOS SYM NAV>;
         };
     };
 
@@ -318,7 +317,7 @@
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
     &kp PRCNT         &kp AMPERSAND     &kp LBKT          &kp RBKT          &kp TILDE           &kp EQUAL         &kp N1            &kp N2            &kp N3            &kp N0
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
-                                                          &trans            &trans              &trans            &kp N0
+                                                          &trans            &trans              &trans            &trans
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
             >;
         };
@@ -332,7 +331,7 @@
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
     &none             &kp F9            &kp F10           &kp F11           &kp F12             TERM_LEFT         DESK_DOWN         DESK_UP           TERM_RIGHT        MOVETO_2
 //╰─────────────────┴─────────────────┴─────────────────┼─────────────────┼─────────────────┤ ├─────────────────┼─────────────────┼─────────────────┴─────────────────┴─────────────────╯
-                                                          &lt SYS TAB       &trans              &trans            &lt SYS RET
+                                                          &trans            &trans              &trans            &trans
 //                                                      ╰─────────────────┴─────────────────╯ ╰─────────────────┴─────────────────╯
             >;
         };
