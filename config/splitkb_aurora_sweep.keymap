@@ -8,8 +8,6 @@
 #define SYM 2
 #define NAV 3
 #define SYS 4
-#define XXX &none
-#define ___ &trans
 
 #define QUICK_TAP_MS 175
 #define QUICK_TAP_MS_SLOW 250
