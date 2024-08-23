@@ -20,7 +20,8 @@
 #define COMBO_IDLE_FAST 150
 #define COMBO_IDLE_SLOW 50
 
-&led_strip { chain-length = <23>; };
+// &led_strip { chain-length = <23>; };
+&led_strip { chain-length = <6>; };
 
 /* sticky-key config */
 &sk {
