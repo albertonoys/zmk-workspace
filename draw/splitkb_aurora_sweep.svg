@@ -117,8 +117,8 @@ path.combo {
 /* End Tabler Icons Cleanup */
 
 svg.keymap{font-size: 17px;}</style>
-<g transform="translate(30, 0)" class="layer-base">
-<text x="0" y="28" class="label" id="base">base:</text>
+<g transform="translate(30, 0)" class="layer-Colemak">
+<text x="0" y="28" class="label" id="Colemak">Colemak:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -253,33 +253,33 @@ svg.keymap{font-size: 17px;}</style>
 <g transform="translate(221, 221) rotate(15.0)" class="key keypos-30">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">↹</text>
-<a href="#nav">
-<text x="0" y="22" class="key hold layer-activator">nav</text>
+<a href="#Nav">
+<text x="0" y="22" class="key hold layer-activator">Nav</text>
 </a></g>
 <g transform="translate(279, 245) rotate(30.0)" class="key keypos-31">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">⌫</text>
-<a href="#sym">
-<text x="0" y="22" class="key hold layer-activator">sym</text>
+<a href="#Sym">
+<text x="0" y="22" class="key hold layer-activator">Sym</text>
 </a><text x="0" y="-22" class="key shifted">⌦</text>
 </g>
 <g transform="translate(393, 245) rotate(-30.0)" class="key keypos-32">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">␣</text>
-<a href="#sym">
-<text x="0" y="22" class="key hold layer-activator">sym</text>
+<a href="#Sym">
+<text x="0" y="22" class="key hold layer-activator">Sym</text>
 </a><text x="0" y="-22" class="key shifted"><tspan style="font-size: 67%">&amp;dot_…</tspan></text>
 </g>
 <g transform="translate(451, 221) rotate(-15.0)" class="key keypos-33">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">⮐</text>
-<a href="#nav">
-<text x="0" y="22" class="key hold layer-activator">nav</text>
+<a href="#Nav">
+<text x="0" y="22" class="key hold layer-activator">Nav</text>
 </a></g>
 </g>
 </g>
-<g transform="translate(30, 339)" class="layer-macos">
-<text x="0" y="28" class="label" id="macos">macos:</text>
+<g transform="translate(30, 339)" class="layer-MacOS">
+<text x="0" y="28" class="label" id="MacOS">MacOS:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key trans keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>
@@ -423,8 +423,8 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 </g>
 </g>
-<g transform="translate(30, 678)" class="layer-sym">
-<text x="0" y="28" class="label" id="sym">sym:</text>
+<g transform="translate(30, 678)" class="layer-Sym">
+<text x="0" y="28" class="label" id="Sym">Sym:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -571,8 +571,8 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 </g>
 </g>
-<g transform="translate(30, 1016)" class="layer-nav">
-<text x="0" y="28" class="label" id="nav">nav:</text>
+<g transform="translate(30, 1016)" class="layer-Nav">
+<text x="0" y="28" class="label" id="Nav">Nav:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -728,8 +728,8 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 </g>
 </g>
-<g transform="translate(30, 1355)" class="layer-sys">
-<text x="0" y="28" class="label" id="sys">sys:</text>
+<g transform="translate(30, 1355)" class="layer-System">
+<text x="0" y="28" class="label" id="System">System:</text>
 <g transform="translate(0, 56)">
 <g transform="translate(28, 81)" class="key keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -763,21 +763,15 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 <g transform="translate(420, 52)" class="key keypos-5">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">TOG</tspan>
-</text>
 </g>
 <g transform="translate(476, 44)" class="key keypos-6">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
 <text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">EFF</tspan>
+<tspan x="0" dy="-0.6em">EP</tspan><tspan x="0" dy="1.2em">TOG</tspan>
 </text>
 </g>
 <g transform="translate(532, 28)" class="key keypos-7">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">EFR</tspan>
-</text>
 </g>
 <g transform="translate(588, 46)" class="key keypos-8">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -787,8 +781,8 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 <g transform="translate(644, 81)" class="key keypos-9">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<a href="#macos">
-<text x="0" y="-4" class="key tap layer-activator"><tspan style="font-size: 80%">macos</tspan></text>
+<a href="#MacOS">
+<text x="0" y="-4" class="key tap layer-activator"><tspan style="font-size: 80%">MacOS</tspan></text>
 </a><text x="0" y="22" class="key hold"><tspan style="font-size: 67%">toggle</tspan></text>
 </g>
 <g transform="translate(28, 137)" class="key keypos-10">
@@ -808,27 +802,15 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 <g transform="translate(420, 108)" class="key keypos-15">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">HUI</tspan>
-</text>
 </g>
 <g transform="translate(476, 100)" class="key keypos-16">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">SAI</tspan>
-</text>
 </g>
 <g transform="translate(532, 84)" class="key keypos-17">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">BRI</tspan>
-</text>
 </g>
 <g transform="translate(588, 102)" class="key keypos-18">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">SPI</tspan>
-</text>
 </g>
 <g transform="translate(644, 137)" class="key keypos-19">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -863,27 +845,15 @@ svg.keymap{font-size: 17px;}</style>
 </g>
 <g transform="translate(420, 164)" class="key keypos-25">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">HUD</tspan>
-</text>
 </g>
 <g transform="translate(476, 156)" class="key keypos-26">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">SAD</tspan>
-</text>
 </g>
 <g transform="translate(532, 140)" class="key keypos-27">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">BRD</tspan>
-</text>
 </g>
 <g transform="translate(588, 158)" class="key keypos-28">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
-<text x="0" y="-4" class="key tap">
-<tspan x="0" dy="-0.6em">RGB</tspan><tspan x="0" dy="1.2em">SPD</tspan>
-</text>
 </g>
 <g transform="translate(644, 193)" class="key keypos-29">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key"/>
@@ -1575,8 +1545,8 @@ svg.keymap{font-size: 17px;}</style>
 <g transform="translate(0, 28)">
 <g transform="translate(28, 28)" class="key  combo-separate keypos-0">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key  combo-separate"/>
-<a href="#sys">
-<text x="0" y="-4" class="key  combo-separate tap layer-activator">sys</text>
+<a href="#System">
+<text x="0" y="-4" class="key  combo-separate tap layer-activator"><tspan style="font-size: 67%">System</tspan></text>
 </a></g>
 <g transform="translate(14, 99)" class="key keypos-1">
 <rect rx="6" ry="6" x="-12" y="-12" width="24" height="24" class="key"/>
