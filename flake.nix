@@ -14,22 +14,25 @@
     # zephyr-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { nixpkgs, zephyr-nix, ... }: let
-    systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+  outputs = {
+    nixpkgs,
+    zephyr-nix,
+    ...
+  }: let
+    systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
   in {
     devShells = forAllSystems (system: let
       pkgs = nixpkgs.legacyPackages.${system};
       zephyr = zephyr-nix.packages.${system};
-      keymap_drawer = pkgs.python3Packages.callPackage ./draw { };
-
+      keymap_drawer = pkgs.python3Packages.callPackage ./draw {};
     in {
       default = pkgs.mkShell {
         packages = [
           keymap_drawer
 
           zephyr.pythonEnv
-          (zephyr.sdk.override { targets = [ "arm-zephyr-eabi" ]; })
+          (zephyr.sdk.override {targets = ["arm-zephyr-eabi"];})
 
           pkgs.cmake
           pkgs.dtc
